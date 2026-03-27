@@ -2037,7 +2037,7 @@ function esSaveSession(){
 
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach((t,i)=>{
-    const tabs=['range','calendar','todo','schoolcal'];
+    const tabs=['schoolcal','calendar','todo','range','lift','golf','bag'];
     t.classList.toggle('active',tabs[i]===tab);
   });
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
