@@ -231,6 +231,77 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
 .t-speed{background:#ffedd5;color:#9a3412}
 
 @media(max-width:640px){.main{padding:1rem 1rem 0}.day{min-height:78px}.tag{font-size:.52rem}.phase-progress-row{grid-template-columns:1fr 1fr}}
+
+/* ── MARKETS TAB ─────────────────────────────────────────────── */
+.mkt-section-title{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:600;color:#0f172a;letter-spacing:-.04em;margin-bottom:.15rem}
+.mkt-section-title span{color:#1e3a5f}
+.mkt-subtitle{font-size:.85rem;color:#64748b;margin-bottom:1.25rem}
+.mkt-glass{background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.3);border-radius:14px;padding:1.1rem 1.3rem;margin-bottom:1rem}
+.mkt-strip{display:flex;gap:.65rem;overflow-x:auto;padding-bottom:.5rem;margin-bottom:.5rem;scrollbar-width:thin}
+.mkt-strip::-webkit-scrollbar{height:4px}
+.mkt-strip::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px}
+.mkt-idx-card{background:rgba(255,255,255,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.4);border-radius:12px;padding:.75rem 1rem;text-align:center;border-top:3px solid #1e3a5f;min-width:130px;flex-shrink:0}
+.mkt-idx-card .idx-name{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b}
+.mkt-idx-card .idx-price{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;color:#0f172a;margin:.1rem 0}
+.mkt-idx-card .idx-chg{font-size:.72rem;font-weight:600}
+.mkt-green{color:#16a34a}.mkt-red{color:#dc2626}
+.mkt-3col{display:grid;grid-template-columns:2fr 1.75fr 1.25fr;gap:1rem;margin-bottom:1rem}
+.mkt-btn{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;background:rgba(30,58,95,.08);color:#1e3a5f;border:none;padding:5px 14px;border-radius:8px;cursor:pointer;transition:background .15s;font-family:'DM Sans',sans-serif}
+.mkt-btn:hover{background:rgba(30,58,95,.15)}
+.mkt-btn:disabled{opacity:.5;cursor:default}
+.mkt-btn-accent{background:#1e3a5f;color:#fff}.mkt-btn-accent:hover{background:#16304f}
+.mkt-watchlist-item{display:flex;align-items:center;gap:.65rem;padding:.65rem .75rem;border-radius:10px;background:rgba(248,250,252,.6);margin-bottom:.5rem;border:1px solid rgba(226,232,240,.5);position:relative}
+.mkt-watchlist-item .wl-ticker{font-weight:700;font-size:.85rem;color:#1e3a5f;min-width:52px}
+.mkt-watchlist-item .wl-price{font-family:'Fraunces',serif;font-weight:700;font-size:.95rem;color:#0f172a}
+.mkt-watchlist-item .wl-meta{font-size:.65rem;color:#94a3b8;line-height:1.35}
+.mkt-watchlist-item .wl-del{position:absolute;right:8px;top:6px;background:none;border:none;color:#cbd5e1;cursor:pointer;font-size:.85rem;line-height:1}.mkt-watchlist-item .wl-del:hover{color:#ef4444}
+.mkt-wl-ask{font-size:.65rem;font-weight:700;background:rgba(30,58,95,.06);color:#1e3a5f;border:1px solid rgba(30,58,95,.12);padding:3px 9px;border-radius:6px;cursor:pointer;margin-top:.3rem;font-family:'DM Sans',sans-serif}
+.mkt-wl-ask:hover{background:rgba(30,58,95,.12)}
+.mkt-chart-box{background:rgba(248,250,252,.55);border:1px solid rgba(226,232,240,.45);border-radius:10px;padding:.75rem;margin-bottom:.75rem}
+.mkt-chart-box canvas{width:100%;display:block}
+.mkt-chart-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.4rem}
+.mkt-lesson-card{background:linear-gradient(135deg,rgba(30,58,95,.06),rgba(59,130,246,.05));border:1px solid rgba(30,58,95,.1);border-radius:12px;padding:1rem 1.15rem}
+.mkt-lesson-card h4{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:#1e3a5f;margin-bottom:.35rem}
+.mkt-lesson-card p{font-size:.8rem;color:#334155;line-height:1.55;margin-bottom:.45rem}
+.mkt-lesson-card .lesson-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin-bottom:.15rem}
+.mkt-lesson-example{background:rgba(30,58,95,.06);border-radius:8px;padding:.5rem .75rem;margin:.3rem 0 .5rem;font-size:.78rem;color:#1e3a5f;font-weight:600}
+.mkt-intel-bullet{font-size:.8rem;color:#334155;padding:.35rem 0;border-bottom:1px solid rgba(226,232,240,.4);line-height:1.5}
+.mkt-intel-bullet:last-child{border-bottom:none}
+.mkt-news-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#1e3a5f;margin:.5rem 0 .2rem}
+.mkt-news-text{font-size:.78rem;color:#334155;line-height:1.55;margin-bottom:.4rem}
+.mkt-ai-badge{font-size:.6rem;font-weight:700;color:#1e3a5f;background:rgba(30,58,95,.08);padding:2px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:3px}
+.mkt-ai-card{position:relative;background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border:1px solid rgba(30,58,95,.1);border-radius:12px;padding:1rem 1.15rem;margin-top:.65rem}
+.mkt-ai-card .mkt-ai-badge{position:absolute;top:8px;right:10px}
+.mkt-ai-card p{font-size:.8rem;color:#334155;line-height:1.55}
+.mkt-finance-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:.65rem 0}
+.mkt-finance-header h3{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:700;color:#0f172a}
+.mkt-fin-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.mkt-fin-table th{text-align:left;padding:.45rem .5rem;font-size:.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #e2e8f0}
+.mkt-fin-table td{padding:.45rem .5rem;border-bottom:1px solid #f1f5f9}
+.mkt-fin-revenue{border-left:3px solid #16a34a}.mkt-fin-expense{border-left:3px solid #dc2626}
+.mkt-summary-bar{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.75rem;padding:.65rem 1rem;background:rgba(248,250,252,.6);border:1px solid rgba(226,232,240,.5);border-radius:10px}
+.mkt-summary-bar .s-item{font-size:.82rem;font-weight:700}
+.mkt-ak-derived{font-family:'Fraunces',serif;font-weight:700;font-size:.85rem;color:#1e3a5f}
+.mkt-milestone-track{position:relative;padding-left:28px;margin:.75rem 0}
+.mkt-milestone-track::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:3px;background:#e2e8f0;border-radius:2px}
+.mkt-ms-item{position:relative;padding:.5rem 0 .5rem .75rem;display:flex;align-items:center;gap:.75rem}
+.mkt-ms-dot{width:24px;height:24px;border-radius:50%;position:absolute;left:-28px;display:flex;align-items:center;justify-content:center;font-size:.7rem;z-index:2;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.mkt-ms-done{background:#1e3a5f;color:#fff}
+.mkt-ms-next{background:#fff;border:3px solid #1e3a5f;animation:mkt-pulse-ms 2s infinite}
+.mkt-ms-locked{background:#e2e8f0;color:#94a3b8}
+@keyframes mkt-pulse-ms{0%,100%{box-shadow:0 0 0 0 rgba(30,58,95,.3)}50%{box-shadow:0 0 0 8px rgba(30,58,95,0)}}
+@keyframes mkt-pulse-load{0%,100%{opacity:1}50%{opacity:.4}}
+.mkt-loading{animation:mkt-pulse-load 1.5s ease-in-out infinite}
+.mkt-settings-bar{background:rgba(248,250,252,.6);border:1px solid rgba(226,232,240,.5);border-radius:10px;padding:.75rem 1rem;margin-bottom:1rem;display:none}
+.mkt-settings-bar.open{display:block}
+.mkt-ms-modal-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(15,23,42,.45);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1rem}
+.mkt-ms-modal-overlay.open{display:flex}
+.mkt-ms-modal{background:#1e3a5f;border-radius:16px;padding:2rem;max-width:440px;width:100%;color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center}
+.mkt-ms-modal h3{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;margin-bottom:.75rem}
+.mkt-ms-modal p{font-size:.88rem;line-height:1.6;opacity:.9;margin-bottom:1rem}
+.mkt-ms-modal button{background:#fff;color:#1e3a5f;border:none;padding:.6rem 1.5rem;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer}
+@media(max-width:900px){.mkt-3col{grid-template-columns:1fr}}
+@media(max-width:640px){.mkt-strip{flex-direction:column}.mkt-idx-card{min-width:auto}}
 </style>
 </head>
 <body>
@@ -255,6 +326,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
   <div class="tab" onclick="switchTab('lift')">Workouts</div>
   <div class="tab" onclick="switchTab('golf')">Golf Log</div>
   <div class="tab" onclick="switchTab('bag')">My Bag</div>
+  <div class="tab" onclick="switchTab('markets')">Markets</div>
 </div>
 <div class="main">
 
@@ -419,6 +491,173 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opa
   <div style="margin-top:1rem;background:rgba(255,255,255,.68);border:1px solid rgba(255,255,255,.82);border-radius:12px;padding:.85rem 1.2rem;display:flex;justify-content:space-between;align-items:center">
     <span style="font-size:.85rem;color:#64748b;font-weight:600">Total invested</span>
     <span style="font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;color:#1e3a5f" id="bag-total">$0</span>
+  </div>
+</div>
+
+<!-- MARKETS -->
+<div class="panel" id="panel-markets">
+  <div class="mkt-section-title">Market <span>Dashboard</span></div>
+  <div class="mkt-subtitle">Live indices · watchlist · alpha charts · daily lessons · finance tracker</div>
+
+  <!-- Settings toggle -->
+  <div style="display:flex;justify-content:flex-end;margin-bottom:.5rem">
+    <button class="mkt-btn" onclick="document.getElementById('mkt-settings-bar').classList.toggle('open')">&#9881; Settings</button>
+  </div>
+  <div class="mkt-settings-bar" id="mkt-settings-bar">
+    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+      <span style="font-size:.72rem;font-weight:700;color:#64748b">Claude API Key:</span>
+      <input id="mkt-api-key-input" type="password" placeholder="sk-ant-..." style="flex:1;min-width:200px;font-size:.75rem;padding:5px 10px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#1e293b;font-family:'DM Sans',sans-serif">
+      <button class="mkt-btn mkt-btn-accent" onclick="mktSaveApiKey()">Save</button>
+      <span id="mkt-api-key-status" style="font-size:.68rem;color:#94a3b8"></span>
+    </div>
+  </div>
+
+  <!-- Market Overview Strip -->
+  <div class="mkt-glass">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem">
+      <span style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:#0f172a">Market Overview</span>
+      <button class="mkt-btn" onclick="fetchMarketOverview(true)">&#8635; Refresh</button>
+      <span id="mkt-overview-ts" style="font-size:.62rem;color:#94a3b8;margin-left:auto"></span>
+    </div>
+    <div class="mkt-strip" id="mkt-overview-strip"></div>
+    <div id="mkt-market-mood" class="mkt-ai-card" style="display:none">
+      <span class="mkt-ai-badge">&#10022; AI Summary</span>
+      <p id="mkt-mood-text"></p>
+    </div>
+  </div>
+
+  <!-- 3-column layout -->
+  <div class="mkt-3col">
+    <!-- Column 1: Watchlist -->
+    <div>
+      <div class="mkt-glass">
+        <div style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:#0f172a;margin-bottom:.5rem">My Watchlist</div>
+        <div id="mkt-watchlist-list"></div>
+        <div style="display:flex;gap:.4rem;margin-top:.65rem">
+          <input id="mkt-add-ticker" placeholder="Add ticker..." style="flex:1;font-size:.78rem;padding:5px 10px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#1e293b;font-family:'DM Sans',sans-serif" onkeydown="if(event.key==='Enter')mktAddTicker()">
+          <button class="mkt-btn mkt-btn-accent" onclick="mktAddTicker()">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 2: Charts -->
+    <div>
+      <div class="mkt-glass">
+        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem">
+          <span style="font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:#0f172a">Alpha &amp; Risk</span>
+          <select id="mkt-chart-ticker" onchange="mktDrawCharts()" style="font-size:.75rem;padding:3px 8px;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc;color:#1e293b;font-family:'DM Sans',sans-serif"></select>
+        </div>
+        <div class="mkt-chart-box"><div class="mkt-chart-label">6-Month Price + Moving Averages</div><canvas id="mkt-chart-price" height="180"></canvas></div>
+        <div class="mkt-chart-box"><div class="mkt-chart-label">Daily Volatility Risk</div><canvas id="mkt-chart-vol" height="180"></canvas></div>
+        <div class="mkt-chart-box"><div class="mkt-chart-label">Performance vs S&amp;P 500</div><canvas id="mkt-chart-rs" height="180"></canvas></div>
+        <button class="mkt-btn" onclick="mktExplainCharts()" id="mkt-explain-btn" style="width:100%;justify-content:center;padding:8px">&#10022; Explain These Charts</button>
+        <div id="mkt-chart-explanation"></div>
+      </div>
+    </div>
+
+    <!-- Column 3: AI Feed -->
+    <div>
+      <!-- Daily Lesson -->
+      <div class="mkt-glass mkt-lesson-card" style="margin-bottom:.75rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+          <span class="lesson-label" style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8">Daily Lesson</span>
+          <button class="mkt-btn" onclick="mktFetchLesson(true)">Next Lesson &rarr;</button>
+        </div>
+        <div id="mkt-lesson-body"><p style="color:#94a3b8">Loading today's lesson...</p></div>
+      </div>
+
+      <!-- World News -->
+      <div class="mkt-glass" style="margin-bottom:.75rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+          <span style="font-family:'Fraunces',serif;font-size:.95rem;font-weight:700;color:#0f172a">World News &amp; Markets</span>
+          <button class="mkt-btn" onclick="mktFetchNews(true)">&#8635;</button>
+        </div>
+        <div id="mkt-news-body"><p style="font-size:.8rem;color:#94a3b8">Loading...</p></div>
+        <div id="mkt-news-ts" style="font-size:.6rem;color:#cbd5e1;margin-top:.35rem"></div>
+      </div>
+
+      <!-- Daily Market Bullets -->
+      <div class="mkt-glass">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+          <span style="font-family:'Fraunces',serif;font-size:.95rem;font-weight:700;color:#0f172a">Market Bullets</span>
+          <button class="mkt-btn" onclick="mktFetchBullets()">Today's Update</button>
+        </div>
+        <div id="mkt-bullets-body"><p style="font-size:.8rem;color:#94a3b8">Click to get today's bullets</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Finance Tracker -->
+  <div class="mkt-glass">
+    <div class="mkt-finance-header" onclick="var b=document.getElementById('mkt-finance-body');b.style.display=b.style.display==='none'?'block':'none';this.querySelector('.chevron').textContent=b.style.display==='none'?'\u25B6':'\u25BC'">
+      <h3>AdmitKit & Personal <span style="color:#1e3a5f">Finances</span></h3>
+      <span class="chevron" style="font-size:.75rem;color:#94a3b8">&#9660;</span>
+    </div>
+    <div id="mkt-finance-body">
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:1rem;margin-bottom:1rem">
+        <!-- Expense Spreadsheet -->
+        <div>
+          <div class="mkt-summary-bar" id="mkt-fin-summary"></div>
+          <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.3rem">Break-even at $161/mo</div>
+          <div style="max-height:320px;overflow-y:auto;margin-bottom:.75rem;border:1px solid #e2e8f0;border-radius:10px">
+            <table class="mkt-fin-table">
+              <thead><tr><th>Description</th><th>Amount</th><th>Type</th><th>Category</th><th>Date</th><th>Card</th><th></th></tr></thead>
+              <tbody id="mkt-fin-tbody"></tbody>
+            </table>
+          </div>
+          <div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.75rem">
+            <input id="fin-desc" placeholder="Description" style="flex:2;min-width:120px;font-size:.75rem;padding:5px 10px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-family:'DM Sans',sans-serif">
+            <input id="fin-amt" type="number" placeholder="$" style="width:70px;font-size:.75rem;padding:5px 10px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-family:'DM Sans',sans-serif">
+            <select id="fin-type" style="font-size:.75rem;padding:5px 8px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-family:'DM Sans',sans-serif">
+              <option value="expense">Expense</option><option value="revenue">Revenue</option>
+            </select>
+            <select id="fin-cat" style="font-size:.75rem;padding:5px 8px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-family:'DM Sans',sans-serif">
+              <option value="AdmitKit">AdmitKit</option><option value="Personal">Personal</option><option value="Golf">Golf</option><option value="Other">Other</option>
+            </select>
+            <input id="fin-date" type="date" style="font-size:.75rem;padding:5px 8px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-family:'DM Sans',sans-serif">
+            <select id="fin-card" style="font-size:.75rem;padding:5px 8px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-family:'DM Sans',sans-serif">
+              <option value="Amex">Amex</option><option value="Visa">Visa</option><option value="Cash">Cash</option><option value="Other">Other</option>
+            </select>
+            <button class="mkt-btn mkt-btn-accent" onclick="mktAddFinance()">Add Entry</button>
+          </div>
+          <div class="mkt-chart-box"><div class="mkt-chart-label">Monthly Net P&amp;L</div><canvas id="mkt-chart-monthly" height="160"></canvas></div>
+        </div>
+        <!-- AdmitKit Tracker + Milestones -->
+        <div>
+          <div class="mkt-glass" style="margin-bottom:.75rem">
+            <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.5rem">AdmitKit Tracker</div>
+            <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:.75rem">
+              <div style="display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:#334155"><b>MRR:</b> $<input id="ak-mrr" type="number" style="width:80px;font-size:.78rem;padding:3px 8px;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc;font-family:'DM Sans',sans-serif" onblur="mktSaveAdmitKit()" onchange="mktSaveAdmitKit()"></div>
+              <div style="display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:#334155"><b>Users:</b> <input id="ak-users" type="number" style="width:65px;font-size:.78rem;padding:3px 8px;border:1px solid #e2e8f0;border-radius:6px;background:#f8fafc;font-family:'DM Sans',sans-serif" onblur="mktSaveAdmitKit()" onchange="mktSaveAdmitKit()"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem">
+              <div style="text-align:center;background:rgba(30,58,95,.04);border-radius:8px;padding:.5rem"><div class="mkt-ak-derived" id="ak-arr">$0</div><div style="font-size:.6rem;font-weight:700;color:#94a3b8;text-transform:uppercase">Annual Run Rate</div></div>
+              <div style="text-align:center;background:rgba(30,58,95,.04);border-radius:8px;padding:.5rem"><div class="mkt-ak-derived" id="ak-expenses">$0</div><div style="font-size:.6rem;font-weight:700;color:#94a3b8;text-transform:uppercase">Monthly Expenses</div></div>
+              <div style="text-align:center;background:rgba(30,58,95,.04);border-radius:8px;padding:.5rem"><div class="mkt-ak-derived" id="ak-profit">$0</div><div style="font-size:.6rem;font-weight:700;color:#94a3b8;text-transform:uppercase">Net Profit</div></div>
+              <div style="text-align:center;background:rgba(30,58,95,.04);border-radius:8px;padding:.5rem"><div class="mkt-ak-derived" id="ak-margin">&mdash;</div><div style="font-size:.6rem;font-weight:700;color:#94a3b8;text-transform:uppercase">Profit Margin</div></div>
+            </div>
+            <div style="display:flex;gap:.35rem;margin-bottom:.5rem">
+              <input id="ak-note" placeholder="Add a note..." style="flex:1;font-size:.75rem;padding:5px 10px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-family:'DM Sans',sans-serif" onkeydown="if(event.key==='Enter')mktAddAkNote()">
+              <button class="mkt-btn" onclick="mktAddAkNote()">Add</button>
+            </div>
+            <div id="ak-notes-list" style="max-height:150px;overflow-y:auto"></div>
+          </div>
+          <div class="mkt-glass">
+            <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:.5rem">Revenue Milestones</div>
+            <div id="mkt-milestones"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Milestone modal -->
+<div class="mkt-ms-modal-overlay" id="mkt-ms-modal" onclick="if(event.target.id==='mkt-ms-modal')mktDismissMilestone()">
+  <div class="mkt-ms-modal">
+    <h3 id="mkt-ms-modal-title">Milestone Reached!</h3>
+    <p id="mkt-ms-modal-body"></p>
+    <button onclick="mktDismissMilestone()">Got it</button>
   </div>
 </div>
 
@@ -2037,7 +2276,7 @@ function esSaveSession(){
 
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach((t,i)=>{
-    const tabs=['schoolcal','calendar','todo','range','lift','golf','bag'];
+    const tabs=['schoolcal','calendar','todo','range','lift','golf','bag','markets'];
     t.classList.toggle('active',tabs[i]===tab);
   });
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -2045,6 +2284,7 @@ function switchTab(tab){
   if(tab==='todo'){ renderTodoPanel(); }
   if(tab==='schoolcal'){ renderSchoolCalPanel(); }
   if(tab==='calendar'){ buildCalendar(); }
+  if(tab==='markets'){ initMarketsTab(); }
 }
 
 
@@ -4206,7 +4446,7 @@ function esSaveSession(){
 
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach(function(t,i){
-    var tabs=['schoolcal','calendar','todo','range','lift','golf','bag'];
+    var tabs=['schoolcal','calendar','todo','range','lift','golf','bag','markets'];
     t.classList.toggle('active',tabs[i]===tab);
   });
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
@@ -4222,6 +4462,7 @@ renderLiftPanel();
 renderPrepPanel();
   if(tab==='lift') renderPrepPanel();
   if(tab==='calendar'){ buildCalendar(); renderSummerCal(); }
+  if(tab==='markets') initMarketsTab();
 }
 
 
@@ -4373,6 +4614,550 @@ document.addEventListener('DOMContentLoaded', function(){
   renderGolfPanel();
   renderCustomSessions();
 });
+
+// ── MARKETS TAB (v6) ────────────────────────────────────────────────────────
+
+let _mktInitialized = false;
+function initMarketsTab(){
+  if(!_mktInitialized){
+    if(!STATE.watchlist) STATE.watchlist = ['SPY','AAPL','NVDA','TSLA','LMT'];
+    if(!STATE.finances || !STATE.finances.length){
+      STATE.finances = [
+        {id:1, description:'Railway Subscription', amount:20, type:'expense', category:'AdmitKit', date:'monthly', card:'Amex'},
+        {id:2, description:'Porkbun Domain', amount:1, type:'expense', category:'AdmitKit', date:'monthly', card:'Visa'},
+        {id:3, description:'Claude API Credits', amount:40, type:'expense', category:'AdmitKit', date:'monthly', card:'Amex'},
+        {id:4, description:'Claude Tokens', amount:100, type:'expense', category:'AdmitKit', date:'monthly', card:'Amex'}
+      ];
+    }
+    if(!STATE.admitkit_tracker) STATE.admitkit_tracker = {mrr:0,users:0,notes:[]};
+    if(!STATE.lesson_cache) STATE.lesson_cache = {};
+    if(!STATE.market_cache) STATE.market_cache = {};
+    if(!STATE.news_cache) STATE.news_cache = {};
+    if(STATE.dashboard_claude_key === undefined) STATE.dashboard_claude_key = '';
+    if(STATE.lesson_index === undefined) STATE.lesson_index = 0;
+    if(!STATE.milestone_dismissed) STATE.milestone_dismissed = {};
+    saveState(STATE);
+    // Load API key
+    var k = (STATE.dashboard_claude_key||'').trim();
+    if(k){
+      document.getElementById('mkt-api-key-input').value = k;
+      document.getElementById('mkt-api-key-status').textContent = '****'+k.slice(-4);
+    }
+    // Load admitkit fields
+    document.getElementById('ak-mrr').value = STATE.admitkit_tracker.mrr||0;
+    document.getElementById('ak-users').value = STATE.admitkit_tracker.users||0;
+    _mktInitialized = true;
+  }
+  fetchMarketOverview(false);
+  mktRenderWatchlist();
+  mktPopulateChartDropdown();
+  mktRenderFinances();
+  mktRenderAkNotes();
+  mktUpdateAkDerived();
+  mktRenderMilestones();
+  mktFetchLesson(false);
+  mktFetchNews(false);
+}
+
+// ── Claude API ───────────────────────────────────────────────────────────────
+async function callClaude(systemPrompt, userPrompt){
+  var key = (STATE.dashboard_claude_key || '').trim();
+  if(!key){ alert('Add your Claude API key in Markets → Settings'); return null; }
+  try{
+    var res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':key,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:systemPrompt,
+        messages:[{role:'user',content:userPrompt}]
+      })
+    });
+    var data = await res.json();
+    if(data.error){console.error('Claude error:',data.error.message);return null;}
+    return data.content&&data.content[0]?data.content[0].text:null;
+  }catch(e){console.error('Claude fetch failed:',e);return null;}
+}
+
+function mktSaveApiKey(){
+  var k = document.getElementById('mkt-api-key-input').value.trim();
+  STATE.dashboard_claude_key = k;
+  saveState(STATE);
+  var status = document.getElementById('mkt-api-key-status');
+  if(k) status.textContent = 'Saved (****'+k.slice(-4)+')';
+  else status.textContent = 'Cleared';
+}
+
+// ── Yahoo Finance ────────────────────────────────────────────────────────────
+async function yahooChart(symbol, interval, range){
+  try{
+    var url = 'https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(symbol)+'?interval='+interval+'&range='+range;
+    var r = await fetch(url);
+    var d = await r.json();
+    return d.chart&&d.chart.result?d.chart.result[0]:null;
+  }catch(e){console.warn('Yahoo failed:',symbol,e);return null;}
+}
+
+// ── Market Overview ──────────────────────────────────────────────────────────
+var MKT_INDEXES = [
+  {sym:'^GSPC',name:'S&P 500'},{sym:'^IXIC',name:'NASDAQ'},{sym:'^DJI',name:'DOW'},{sym:'^VIX',name:'VIX'},
+  {sym:'^STOXX50E',name:'Euro Stoxx 50'},{sym:'^GDAXI',name:'DAX'},{sym:'^FTSE',name:'FTSE 100'},
+  {sym:'^TA125.TA',name:'TA-125'},
+  {sym:'BZ=F',name:'Brent Oil'},{sym:'CL=F',name:'WTI Oil'}
+];
+var mktIndexResults = {};
+
+async function fetchMarketOverview(forceAI){
+  var strip = document.getElementById('mkt-overview-strip');
+  strip.innerHTML = MKT_INDEXES.map(function(idx){
+    return '<div class="mkt-idx-card mkt-loading" id="idx-'+idx.sym.replace(/[^a-zA-Z0-9]/g,'')+'"><div class="idx-name">'+idx.name+'</div><div class="idx-price">&mdash;</div><div class="idx-chg"></div></div>';
+  }).join('');
+
+  var results = await Promise.all(MKT_INDEXES.map(function(idx){return yahooChart(idx.sym,'1d','5d');}));
+  mktIndexResults = {};
+
+  results.forEach(function(d,i){
+    var card = document.getElementById('idx-'+MKT_INDEXES[i].sym.replace(/[^a-zA-Z0-9]/g,''));
+    if(card) card.classList.remove('mkt-loading');
+    if(!d||!d.meta) return;
+    var price = d.meta.regularMarketPrice;
+    var prev = d.meta.chartPreviousClose||d.meta.previousClose||price;
+    var chg = price - prev;
+    var pct = prev?(chg/prev*100):0;
+    if(card){
+      card.querySelector('.idx-price').textContent = price.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+      var chgEl = card.querySelector('.idx-chg');
+      chgEl.textContent = (chg>=0?'+':'')+chg.toFixed(2)+' ('+(chg>=0?'+':'')+pct.toFixed(2)+'%)'+(chg>=0?' ▲':' ▼');
+      chgEl.className = 'idx-chg '+(chg>=0?'mkt-green':'mkt-red');
+    }
+    mktIndexResults[MKT_INDEXES[i].name] = {price:price,change:chg.toFixed(2),pct:pct.toFixed(2)};
+  });
+  document.getElementById('mkt-overview-ts').textContent = 'Updated '+new Date().toLocaleTimeString();
+
+  // AI mood summary
+  var dateKey = new Date().toISOString().slice(0,10);
+  if(!forceAI && STATE.market_cache && STATE.market_cache[dateKey]){
+    mktShowMood(STATE.market_cache[dateKey]); return;
+  }
+  if(Object.keys(mktIndexResults).length===0) return;
+  var moodDiv = document.getElementById('mkt-market-mood');
+  moodDiv.style.display='block';
+  document.getElementById('mkt-mood-text').innerHTML='<span class="mkt-loading" style="display:inline-block">Analyzing market mood...</span>';
+  var sys='You are a sharp market analyst. Respond in exactly 2 sentences. Plain english, no jargon, written for a smart 16-year-old. Describe the overall market mood today based on these index values. Be direct.';
+  var user="Today's values: "+JSON.stringify(mktIndexResults)+". What's the market mood in 2 sentences?";
+  var mood = await callClaude(sys,user);
+  if(mood){
+    if(!STATE.market_cache) STATE.market_cache={};
+    STATE.market_cache[dateKey]=mood; saveState(STATE);
+    mktShowMood(mood);
+  }else{
+    document.getElementById('mkt-mood-text').textContent='Claude unavailable — check API key in Settings';
+  }
+}
+
+function mktShowMood(text){
+  document.getElementById('mkt-market-mood').style.display='block';
+  document.getElementById('mkt-mood-text').textContent=text;
+}
+
+// ── Watchlist ────────────────────────────────────────────────────────────────
+function mktRenderWatchlist(){
+  var list = document.getElementById('mkt-watchlist-list');
+  list.innerHTML = '';
+  (STATE.watchlist||[]).forEach(function(tk,idx){
+    var row = document.createElement('div');
+    row.className='mkt-watchlist-item';
+    row.innerHTML='<span class="wl-ticker">'+tk+'</span>'+
+      '<div style="flex:1"><div class="wl-price" id="wl-price-'+tk+'">&mdash;</div><div class="wl-meta" id="wl-meta-'+tk+'"></div></div>'+
+      '<canvas id="wl-spark-'+tk+'" width="80" height="30" style="flex-shrink:0"></canvas>'+
+      '<button class="wl-del" onclick="mktRemoveTicker('+idx+')">&times;</button>';
+    list.appendChild(row);
+    // Ask Claude button
+    var askDiv = document.createElement('div');
+    askDiv.style.cssText='padding:0 .75rem .4rem';
+    askDiv.innerHTML='<button class="mkt-wl-ask" onclick="mktAskAbout(\''+tk+'\',this)">&#10022; Ask Claude about '+tk+'</button><div id="wl-ai-'+tk+'"></div>';
+    list.appendChild(askDiv);
+    mktFetchWatchlistData(tk);
+  });
+}
+
+async function mktFetchWatchlistData(tk){
+  var d = await yahooChart(tk,'1d','1mo');
+  if(!d) return;
+  var price = d.meta.regularMarketPrice;
+  var prev = d.meta.chartPreviousClose||d.meta.previousClose||price;
+  var chg = price-prev, pct = prev?(chg/prev*100):0;
+  var closes = (d.indicators.quote[0].close||[]).filter(function(v){return v!=null;});
+  var hi52 = d.meta.fiftyTwoWeekHigh, lo52 = d.meta.fiftyTwoWeekLow;
+
+  var priceEl = document.getElementById('wl-price-'+tk);
+  if(priceEl) priceEl.innerHTML='$'+price.toFixed(2)+' <span class="'+(chg>=0?'mkt-green':'mkt-red')+'" style="font-size:.72rem">'+(chg>=0?'+':'')+pct.toFixed(2)+'%</span>';
+  var metaEl = document.getElementById('wl-meta-'+tk);
+  if(metaEl) metaEl.textContent='52w: '+(lo52?Number(lo52).toFixed(0):'?')+' – '+(hi52?Number(hi52).toFixed(0):'?');
+
+  var canvas = document.getElementById('wl-spark-'+tk);
+  if(canvas && closes.length>1){
+    var ctx=canvas.getContext('2d'); ctx.clearRect(0,0,80,30);
+    var mn=Math.min.apply(null,closes),mx=Math.max.apply(null,closes),rng=mx-mn||1;
+    var net=closes[closes.length-1]-closes[0];
+    ctx.strokeStyle=net>=0?'#16a34a':'#dc2626';ctx.lineWidth=1.5;ctx.beginPath();
+    closes.forEach(function(v,i){var x=i/(closes.length-1)*80,y=30-(v-mn)/rng*28+1;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+    ctx.stroke();
+  }
+}
+
+async function mktAskAbout(ticker,btn){
+  var dateKey=new Date().toISOString().slice(0,10);
+  var cacheKey=ticker+'_'+dateKey;
+  if(STATE.market_cache&&STATE.market_cache[cacheKey]){
+    document.getElementById('wl-ai-'+ticker).innerHTML='<div class="mkt-ai-card"><span class="mkt-ai-badge">&#10022; AI</span><p>'+STATE.market_cache[cacheKey]+'</p></div>';return;
+  }
+  btn.disabled=true;btn.textContent='Thinking...';
+  var sys='You are a concise stock analyst writing for a smart 16-year-old learning investing. Max 3 sentences total.';
+  var user='Give me a quick take on '+ticker+' right now. What\'s driving it, is it risky, and should someone my age pay attention to it?';
+  var res=await callClaude(sys,user);
+  btn.disabled=false;btn.textContent='✦ Ask Claude about '+ticker;
+  var target=document.getElementById('wl-ai-'+ticker);
+  if(res){
+    if(!STATE.market_cache)STATE.market_cache={};STATE.market_cache[cacheKey]=res;saveState(STATE);
+    target.innerHTML='<div class="mkt-ai-card"><span class="mkt-ai-badge">&#10022; AI</span><p>'+res+'</p></div>';
+  }else{target.innerHTML='<p style="font-size:.75rem;color:#dc2626;margin-top:.3rem">Claude unavailable — check API key in Settings</p>';}
+}
+
+function mktAddTicker(){
+  var inp=document.getElementById('mkt-add-ticker');
+  var tk=inp.value.trim().toUpperCase();
+  if(!tk)return;
+  if(!STATE.watchlist)STATE.watchlist=[];
+  if(STATE.watchlist.indexOf(tk)===-1){STATE.watchlist.push(tk);saveState(STATE);}
+  inp.value='';mktRenderWatchlist();mktPopulateChartDropdown();
+}
+
+function mktRemoveTicker(idx){
+  STATE.watchlist.splice(idx,1);saveState(STATE);mktRenderWatchlist();mktPopulateChartDropdown();
+}
+
+// ── Chart Dropdown ───────────────────────────────────────────────────────────
+function mktPopulateChartDropdown(){
+  var sel=document.getElementById('mkt-chart-ticker');
+  var prev=sel.value;sel.innerHTML='';
+  (STATE.watchlist||[]).forEach(function(tk){var o=document.createElement('option');o.value=tk;o.textContent=tk;sel.appendChild(o);});
+  if(prev&&STATE.watchlist.indexOf(prev)!==-1)sel.value=prev;
+  mktDrawCharts();
+}
+
+// ── Charts ───────────────────────────────────────────────────────────────────
+var _mktChartData = {};
+
+async function mktDrawCharts(){
+  var tk=document.getElementById('mkt-chart-ticker').value;
+  if(!tk)return;
+  var results=await Promise.all([yahooChart(tk,'1d','6mo'),yahooChart('SPY','1d','6mo')]);
+  var tkData=results[0],spyData=results[1];
+  if(!tkData)return;
+  _mktChartData={tk:tk,tkData:tkData,spyData:spyData};
+  var closes=tkData.indicators.quote[0].close;
+  drawPriceChart(closes,tk);
+  drawVolChart(closes);
+  if(spyData) drawRSChart(closes,spyData.indicators.quote[0].close,tk);
+}
+
+function drawPriceChart(closes,label){
+  var canvas=document.getElementById('mkt-chart-price');
+  var ctx=canvas.getContext('2d');
+  var W=canvas.parentElement.clientWidth-24;
+  canvas.width=W;canvas.height=180;ctx.clearRect(0,0,W,180);
+  var valid=closes.map(function(v,i){return{v:v,i:i};}).filter(function(o){return o.v!=null;});
+  if(valid.length<2)return;
+  var vals=valid.map(function(o){return o.v;});
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),rng=mx-mn||1;
+  var pad={t:15,b:20,l:50,r:10};var cw=W-pad.l-pad.r,ch=180-pad.t-pad.b;
+  function xOf(i){return pad.l+i/(valid.length-1)*cw;}
+  function yOf(v){return pad.t+(1-(v-mn)/rng)*ch;}
+  ctx.strokeStyle='rgba(226,232,240,.5)';ctx.lineWidth=.5;
+  for(var g=0;g<5;g++){var gy=pad.t+g/4*ch;ctx.beginPath();ctx.moveTo(pad.l,gy);ctx.lineTo(W-pad.r,gy);ctx.stroke();ctx.fillStyle='#94a3b8';ctx.font='9px DM Sans';ctx.textAlign='right';ctx.fillText((mx-g/4*rng).toFixed(0),pad.l-5,gy+3);}
+  ctx.strokeStyle='#1e3a5f';ctx.lineWidth=1.8;ctx.beginPath();
+  valid.forEach(function(o,i){var x=xOf(i),y=yOf(o.v);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.stroke();
+  function drawMA(period,color){if(vals.length<period)return;ctx.strokeStyle=color;ctx.lineWidth=1.2;ctx.setLineDash([4,2]);ctx.beginPath();var started=false;for(var i=period-1;i<vals.length;i++){var sum=0;for(var j=i-period+1;j<=i;j++)sum+=vals[j];var avg=sum/period,x=xOf(i),y=yOf(avg);if(!started){ctx.moveTo(x,y);started=true;}else ctx.lineTo(x,y);}ctx.stroke();ctx.setLineDash([]);}
+  drawMA(20,'#eab308');drawMA(50,'#f97316');
+  ctx.font='bold 9px DM Sans';ctx.fillStyle='#1e3a5f';ctx.fillText(label,pad.l+5,pad.t+10);ctx.fillStyle='#eab308';ctx.fillText('20d MA',pad.l+50,pad.t+10);ctx.fillStyle='#f97316';ctx.fillText('50d MA',pad.l+95,pad.t+10);
+}
+
+function drawVolChart(closes){
+  var canvas=document.getElementById('mkt-chart-vol');var ctx=canvas.getContext('2d');
+  var W=canvas.parentElement.clientWidth-24;canvas.width=W;canvas.height=180;ctx.clearRect(0,0,W,180);
+  var returns=[];for(var i=1;i<closes.length;i++){if(closes[i]!=null&&closes[i-1]!=null&&closes[i-1]!==0)returns.push((closes[i]-closes[i-1])/closes[i-1]*100);else returns.push(0);}
+  var vols=[];for(var i=29;i<returns.length;i++){var slice=returns.slice(i-29,i+1);var mean=slice.reduce(function(a,b){return a+b;},0)/slice.length;var variance=slice.reduce(function(a,b){return a+(b-mean)*(b-mean);},0)/slice.length;vols.push(Math.sqrt(variance));}
+  if(vols.length<2)return;
+  var pad={t:15,b:20,l:50,r:10};var cw=W-pad.l-pad.r,ch=180-pad.t-pad.b;
+  var mx=Math.max.apply(null,vols.concat([2.5]));var barW=Math.max(1,cw/vols.length-1);
+  var thresholds=[{lbl:'<1% Low',max:1,color:'rgba(22,163,74,.1)'},{lbl:'1-2% Med',max:2,color:'rgba(234,179,8,.1)'},{lbl:'>2% High',max:mx,color:'rgba(220,38,38,.06)'}];
+  var yPrev=pad.t+ch;
+  thresholds.forEach(function(t){var yTop=pad.t+(1-Math.min(t.max,mx)/mx)*ch;ctx.fillStyle=t.color;ctx.fillRect(pad.l,yTop,cw,yPrev-yTop);ctx.fillStyle='#94a3b8';ctx.font='8px DM Sans';ctx.textAlign='right';ctx.fillText(t.lbl,pad.l-5,(yTop+yPrev)/2+3);yPrev=yTop;});
+  vols.forEach(function(v,i){var x=pad.l+i/vols.length*cw;var h=v/mx*ch;ctx.fillStyle=v<1?'#16a34a':v<2?'#eab308':'#dc2626';ctx.fillRect(x,pad.t+ch-h,barW,h);});
+}
+
+function drawRSChart(tkCloses,spyCloses,label){
+  var canvas=document.getElementById('mkt-chart-rs');var ctx=canvas.getContext('2d');
+  var W=canvas.parentElement.clientWidth-24;canvas.width=W;canvas.height=180;ctx.clearRect(0,0,W,180);
+  var len=Math.min(tkCloses.length,spyCloses.length);var tkNorm=[],spyNorm=[];var tkBase=null,spyBase=null;
+  for(var i=0;i<len;i++){if(tkCloses[i]!=null&&spyCloses[i]!=null){if(tkBase===null){tkBase=tkCloses[i];spyBase=spyCloses[i];}tkNorm.push((tkCloses[i]/tkBase-1)*100);spyNorm.push((spyCloses[i]/spyBase-1)*100);}}
+  if(tkNorm.length<2)return;
+  var all=tkNorm.concat(spyNorm);var mn=Math.min.apply(null,all),mx=Math.max.apply(null,all),rng=mx-mn||1;
+  var pad={t:15,b:20,l:50,r:10};var cw=W-pad.l-pad.r,ch=180-pad.t-pad.b;
+  function xOf(i){return pad.l+i/(tkNorm.length-1)*cw;}function yOf(v){return pad.t+(1-(v-mn)/rng)*ch;}
+  if(mn<0&&mx>0){ctx.strokeStyle='rgba(148,163,184,.4)';ctx.lineWidth=.5;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(pad.l,yOf(0));ctx.lineTo(W-pad.r,yOf(0));ctx.stroke();ctx.setLineDash([]);}
+  ctx.strokeStyle='rgba(226,232,240,.4)';ctx.lineWidth=.5;
+  for(var g=0;g<5;g++){var gy=pad.t+g/4*ch;ctx.beginPath();ctx.moveTo(pad.l,gy);ctx.lineTo(W-pad.r,gy);ctx.stroke();ctx.fillStyle='#94a3b8';ctx.font='9px DM Sans';ctx.textAlign='right';ctx.fillText((mx-g/4*rng).toFixed(1)+'%',pad.l-5,gy+3);}
+  // Area fill
+  ctx.fillStyle='rgba(30,58,95,.06)';ctx.beginPath();tkNorm.forEach(function(v,i){var x=xOf(i),y=yOf(v);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.lineTo(xOf(tkNorm.length-1),pad.t+ch);ctx.lineTo(pad.l,pad.t+ch);ctx.closePath();ctx.fill();
+  // SPY line
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.5;ctx.beginPath();spyNorm.forEach(function(v,i){var x=xOf(i),y=yOf(v);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.stroke();
+  // Ticker line
+  ctx.strokeStyle='#1e3a5f';ctx.lineWidth=2;ctx.beginPath();tkNorm.forEach(function(v,i){var x=xOf(i),y=yOf(v);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.stroke();
+  ctx.font='bold 9px DM Sans';ctx.fillStyle='#1e3a5f';ctx.fillText(label,pad.l+5,pad.t+10);ctx.fillStyle='#94a3b8';ctx.fillText('SPY',pad.l+50,pad.t+10);
+}
+
+async function mktExplainCharts(){
+  var btn=document.getElementById('mkt-explain-btn');
+  var target=document.getElementById('mkt-chart-explanation');
+  var tk=document.getElementById('mkt-chart-ticker').value;
+  if(!tk||!_mktChartData.tkData)return;
+  var dateKey=tk+'_explain_'+new Date().toISOString().slice(0,10);
+  if(STATE.market_cache&&STATE.market_cache[dateKey]){target.innerHTML='<div class="mkt-ai-card"><span class="mkt-ai-badge">&#10022; AI</span><p>'+STATE.market_cache[dateKey]+'</p></div>';return;}
+  btn.disabled=true;btn.textContent='Analyzing...';
+  var closes=_mktChartData.tkData.indicators.quote[0].close.filter(function(v){return v!=null;});
+  var price=closes[closes.length-1];
+  var rets=[];for(var i=1;i<closes.length;i++)if(closes[i]&&closes[i-1])rets.push((closes[i]-closes[i-1])/closes[i-1]*100);
+  var r30=rets.slice(-30);var mean30=r30.reduce(function(a,b){return a+b;},0)/r30.length;var vol30=Math.sqrt(r30.reduce(function(a,b){return a+(b-mean30)*(b-mean30);},0)/r30.length);
+  var ret6m=closes.length>1?((closes[closes.length-1]/closes[0]-1)*100):0;
+  var spyRet=0;if(_mktChartData.spyData){var sc=_mktChartData.spyData.indicators.quote[0].close.filter(function(v){return v!=null;});if(sc.length>1)spyRet=(sc[sc.length-1]/sc[0]-1)*100;}
+  var sys='You are teaching a 16-year-old about investing using real data. Be direct, use plain english, max 4 sentences.';
+  var user='Here\'s data for '+tk+': current price $'+price.toFixed(2)+', 30d volatility '+vol30.toFixed(2)+'%, 6mo return '+ret6m.toFixed(1)+'%, SPY 6mo return '+spyRet.toFixed(1)+'%. Explain what this means in plain terms — is this stock risky, is it beating the market, and what should I know?';
+  var res=await callClaude(sys,user);
+  btn.disabled=false;btn.textContent='✦ Explain These Charts';
+  if(res){if(!STATE.market_cache)STATE.market_cache={};STATE.market_cache[dateKey]=res;saveState(STATE);target.innerHTML='<div class="mkt-ai-card"><span class="mkt-ai-badge">&#10022; AI</span><p>'+res+'</p></div>';}
+  else{target.innerHTML='<p style="font-size:.75rem;color:#dc2626;margin-top:.3rem">Claude unavailable — check API key in Settings</p>';}
+}
+
+// ── Daily Lesson ─────────────────────────────────────────────────────────────
+var MKT_CURRICULUM = ['alpha','beta','volatility','standard deviation','Sharpe ratio','risk-adjusted return','drawdown','correlation','P/E ratio','EPS','market cap','revenue vs profit','gross margin','EBITDA','price-to-sales','book value','index funds','diversification','dollar-cost averaging','compound interest','rebalancing','ETFs vs stocks','inflation','bond yields','Fed rate decisions','sector rotation','macro vs micro','GDP basics','unemployment and markets'];
+
+async function mktFetchLesson(force){
+  var dateKey=new Date().toISOString().slice(0,10);
+  var body=document.getElementById('mkt-lesson-body');
+  if(!force&&STATE.lesson_cache&&STATE.lesson_cache[dateKey]){mktRenderLesson(STATE.lesson_cache[dateKey]);return;}
+  if(force){STATE.lesson_index=(STATE.lesson_index||0)+1;if(STATE.lesson_index>=MKT_CURRICULUM.length)STATE.lesson_index=0;saveState(STATE);}
+  var idx=STATE.lesson_index||0;var concept=MKT_CURRICULUM[idx%MKT_CURRICULUM.length];
+  body.innerHTML='<p class="mkt-loading" style="color:#64748b">Loading lesson on '+concept+'...</p>';
+  var sys='You are teaching a 16-year-old investor one concept per day. Be engaging, direct, and concise. Always return valid JSON only, no markdown, no preamble.';
+  var user='Teach lesson #'+idx+' from this sequence: ['+MKT_CURRICULUM.join(', ')+']. Today\'s concept: '+concept+'. Return JSON: {"concept":"","explanation":"","example":"","why_it_matters":"","fun_fact":""}. explanation = 2 sentences plain english. example = real company the user knows. why_it_matters = 1 sentence. fun_fact = surprising 1-liner. Max 100 words total.';
+  var raw=await callClaude(sys,user);
+  if(!raw){body.innerHTML='<p style="color:#dc2626;font-size:.8rem">Claude unavailable — check API key in Settings</p>';return;}
+  try{var data=JSON.parse(raw);if(!STATE.lesson_cache)STATE.lesson_cache={};STATE.lesson_cache[dateKey]=data;saveState(STATE);mktRenderLesson(data);}
+  catch(e){body.innerHTML='<p style="font-size:.8rem;color:#334155">'+raw.replace(/</g,'&lt;')+'</p>';}
+}
+
+function mktRenderLesson(d){
+  document.getElementById('mkt-lesson-body').innerHTML=
+    '<h4>'+d.concept+'</h4>'+
+    '<div class="lesson-label">Explanation</div><p>'+d.explanation+'</p>'+
+    '<div class="lesson-label">Example</div><div class="mkt-lesson-example">'+d.example+'</div>'+
+    '<div class="lesson-label">Why it matters</div><p>'+d.why_it_matters+'</p>'+
+    (d.fun_fact?'<p style="font-style:italic;font-size:.75rem;color:#64748b;margin-top:.3rem">'+d.fun_fact+'</p>':'');
+}
+
+// ── World News ───────────────────────────────────────────────────────────────
+async function mktFetchNews(force){
+  var dayNum=Math.floor(Date.now()/86400000);var cacheKey='news_'+(dayNum-dayNum%2);
+  var body=document.getElementById('mkt-news-body');
+  if(!force&&STATE.news_cache&&STATE.news_cache[cacheKey]){mktRenderNews(STATE.news_cache[cacheKey]);return;}
+  body.innerHTML='<p class="mkt-loading" style="color:#64748b">Fetching briefing...</p>';
+  var dateStr=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var sys='You are a market-aware news analyst writing for a smart 16-year-old. Be direct and specific. Return valid JSON only, no markdown.';
+  var user='Today is '+dateStr+'. Write a market intelligence briefing. Return JSON: {"headline":"","world_summary":"","market_impact":"","war_update":"","outlook":""}. world_summary = 3 sentences on major global events. market_impact = 2 sentences on how these affect stocks/indexes. war_update = 1-2 sentences on any active conflicts (Ukraine, Middle East) and their market effect specifically — oil prices, defense stocks, safe haven assets. outlook = 1 sentence. Total under 150 words.';
+  var raw=await callClaude(sys,user);
+  if(!raw){body.innerHTML='<p style="color:#dc2626;font-size:.8rem">Claude unavailable — check API key in Settings</p>';return;}
+  try{var data=JSON.parse(raw);if(!STATE.news_cache)STATE.news_cache={};STATE.news_cache[cacheKey]=data;saveState(STATE);mktRenderNews(data);}
+  catch(e){body.innerHTML='<p style="font-size:.8rem;color:#334155">'+raw.replace(/</g,'&lt;')+'</p>';}
+}
+
+function mktRenderNews(d){
+  document.getElementById('mkt-news-body').innerHTML=
+    (d.headline?'<div style="font-family:Fraunces,serif;font-size:.92rem;font-weight:700;color:#0f172a;margin-bottom:.4rem">'+d.headline+'</div>':'')+
+    '<div class="mkt-news-lbl">World Events</div><div class="mkt-news-text">'+d.world_summary+'</div>'+
+    '<div class="mkt-news-lbl">Market Impact</div><div class="mkt-news-text">'+d.market_impact+'</div>'+
+    '<div class="mkt-news-lbl">Conflict &amp; Markets</div><div class="mkt-news-text">'+d.war_update+'</div>'+
+    '<div class="mkt-news-lbl">Outlook</div><div class="mkt-news-text">'+d.outlook+'</div>';
+  document.getElementById('mkt-news-ts').textContent='Last updated '+new Date().toLocaleDateString();
+}
+
+// ── Market Bullets ───────────────────────────────────────────────────────────
+async function mktFetchBullets(){
+  var dateKey=new Date().toISOString().slice(0,10);var body=document.getElementById('mkt-bullets-body');
+  if(STATE.market_cache&&STATE.market_cache['bullets_'+dateKey]){mktRenderBullets(STATE.market_cache['bullets_'+dateKey]);return;}
+  body.innerHTML='<p class="mkt-loading" style="color:#64748b">Fetching...</p>';
+  var dateStr=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var sys='You are a market analyst. Be sharp and direct. Return valid JSON only, no markdown.';
+  var user='Today is '+dateStr+'. Give me: {"bullets":["...","...","...","...","..."],"theme":"","watch":""}. bullets = 5 items, each max 15 words, covering: S&P move, notable stock movers, macro theme, sector moving, wildcard. theme = "trade theme of the day" 1 sentence. watch = one ticker to watch tomorrow and why in 10 words.';
+  var raw=await callClaude(sys,user);
+  if(!raw){body.innerHTML='<p style="color:#dc2626;font-size:.8rem">Claude unavailable — check API key in Settings</p>';return;}
+  try{var data=JSON.parse(raw);if(!STATE.market_cache)STATE.market_cache={};STATE.market_cache['bullets_'+dateKey]=data;saveState(STATE);mktRenderBullets(data);}
+  catch(e){body.innerHTML='<p style="font-size:.8rem;color:#334155">'+raw.replace(/</g,'&lt;')+'</p>';}
+}
+
+function mktRenderBullets(d){
+  document.getElementById('mkt-bullets-body').innerHTML=
+    '<div style="position:relative"><span class="mkt-ai-badge" style="position:absolute;top:0;right:0">&#10022; AI</span>'+
+    (d.bullets||[]).map(function(b){return'<div class="mkt-intel-bullet">'+b+'</div>';}).join('')+
+    '<div style="font-size:.82rem;font-weight:700;color:#0f172a;margin-top:.5rem">'+d.theme+'</div>'+
+    '<div style="font-size:.78rem;margin-top:.3rem;padding:.4rem .65rem;background:rgba(30,58,95,.06);border-radius:8px"><span style="font-weight:700;color:#1e3a5f">Watch:</span> '+d.watch+'</div></div>';
+}
+
+// ── Finance Tracker ──────────────────────────────────────────────────────────
+function mktAddFinance(){
+  var desc=document.getElementById('fin-desc').value.trim();
+  var amt=parseFloat(document.getElementById('fin-amt').value);
+  if(!desc||isNaN(amt))return;
+  if(!STATE.finances)STATE.finances=[];
+  STATE.finances.push({id:Date.now(),description:desc,amount:amt,type:document.getElementById('fin-type').value,category:document.getElementById('fin-cat').value,date:document.getElementById('fin-date').value||'monthly',card:document.getElementById('fin-card').value});
+  saveState(STATE);
+  document.getElementById('fin-desc').value='';document.getElementById('fin-amt').value='';
+  mktRenderFinances();
+}
+
+function mktRenderFinances(){
+  var items=STATE.finances||[];
+  var tbody=document.getElementById('mkt-fin-tbody');
+  var totalRev=0,totalExp=0;
+  items.forEach(function(f){if(f.type==='revenue')totalRev+=f.amount;else totalExp+=f.amount;});
+  var net=totalRev-totalExp;
+  document.getElementById('mkt-fin-summary').innerHTML=
+    '<span class="s-item" style="color:#16a34a">Revenue: $'+totalRev.toFixed(2)+'</span>'+
+    '<span class="s-item" style="color:#dc2626">Expenses: $'+totalExp.toFixed(2)+'</span>'+
+    '<span class="s-item" style="color:'+(net>=0?'#16a34a':'#dc2626')+'">Net: $'+net.toFixed(2)+'</span>';
+  tbody.innerHTML=items.map(function(f){
+    return'<tr class="'+(f.type==='revenue'?'mkt-fin-revenue':'mkt-fin-expense')+'">'+
+    '<td>'+f.description+'</td>'+
+    '<td style="font-weight:700;color:'+(f.type==='revenue'?'#16a34a':'#dc2626')+'">$'+f.amount.toFixed(2)+'</td>'+
+    '<td>'+f.type+'</td>'+
+    '<td><span style="font-size:.68rem;background:rgba(30,58,95,.06);padding:2px 6px;border-radius:4px">'+f.category+'</span></td>'+
+    '<td style="font-size:.72rem;color:#94a3b8">'+f.date+'</td>'+
+    '<td style="font-size:.72rem;color:#64748b">'+(f.card||'')+'</td>'+
+    '<td><button onclick="mktDelFinance('+f.id+')" style="background:none;border:none;color:#cbd5e1;cursor:pointer;font-size:.85rem">&times;</button></td></tr>';
+  }).join('');
+  mktDrawMonthlyChart();
+  mktUpdateAkDerived();
+}
+
+function mktDelFinance(id){
+  STATE.finances=(STATE.finances||[]).filter(function(f){return f.id!==id;});
+  saveState(STATE);mktRenderFinances();
+}
+
+function mktDrawMonthlyChart(){
+  var canvas=document.getElementById('mkt-chart-monthly');if(!canvas)return;
+  var ctx=canvas.getContext('2d');var W=canvas.parentElement.clientWidth-24;
+  canvas.width=W;canvas.height=160;ctx.clearRect(0,0,W,160);
+  var months={};(STATE.finances||[]).forEach(function(f){if(!f.date||f.date==='monthly')return;var m=f.date.slice(0,7);if(!months[m])months[m]={rev:0,exp:0};if(f.type==='revenue')months[m].rev+=f.amount;else months[m].exp+=f.amount;});
+  var keys=Object.keys(months).sort().slice(-6);if(!keys.length)return;
+  var maxVal=0;keys.forEach(function(k){var net=months[k].rev-months[k].exp;maxVal=Math.max(maxVal,Math.abs(net));});if(maxVal===0)maxVal=1;
+  var pad={t:15,b:25,l:50,r:10};var cw=W-pad.l-pad.r,ch=160-pad.t-pad.b;
+  var barW=Math.max(12,cw/keys.length*0.5);var mid=pad.t+ch/2;
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad.l,mid);ctx.lineTo(W-pad.r,mid);ctx.stroke();
+  keys.forEach(function(k,i){var x=pad.l+(i+0.5)/keys.length*cw-barW/2;var net=months[k].rev-months[k].exp;var h=Math.abs(net)/maxVal*(ch/2);ctx.fillStyle=net>=0?'rgba(22,163,74,.65)':'rgba(220,38,38,.55)';if(net>=0)ctx.fillRect(x,mid-h,barW,h);else ctx.fillRect(x,mid,barW,h);ctx.fillStyle='#94a3b8';ctx.font='8px DM Sans';ctx.textAlign='center';ctx.fillText(k.slice(5),x+barW/2,160-5);});
+  ctx.fillStyle='#94a3b8';ctx.font='9px DM Sans';ctx.textAlign='right';ctx.fillText('$'+maxVal.toFixed(0),pad.l-5,pad.t+10);ctx.fillText('$0',pad.l-5,mid+3);ctx.fillText('-$'+maxVal.toFixed(0),pad.l-5,pad.t+ch-5);
+}
+
+// ── AdmitKit Tracker ─────────────────────────────────────────────────────────
+function mktSaveAdmitKit(){
+  if(!STATE.admitkit_tracker)STATE.admitkit_tracker={mrr:0,users:0,notes:[]};
+  STATE.admitkit_tracker.mrr=parseFloat(document.getElementById('ak-mrr').value)||0;
+  STATE.admitkit_tracker.users=parseInt(document.getElementById('ak-users').value)||0;
+  saveState(STATE);mktUpdateAkDerived();mktRenderMilestones();
+}
+
+function mktUpdateAkDerived(){
+  var mrr=STATE.admitkit_tracker?STATE.admitkit_tracker.mrr||0:0;
+  var akExp=(STATE.finances||[]).filter(function(f){return f.category==='AdmitKit'&&f.type==='expense';}).reduce(function(s,f){return s+f.amount;},0);
+  var profit=mrr-akExp;var margin=mrr>0?((profit/mrr)*100):0;
+  document.getElementById('ak-arr').textContent='$'+(mrr*12).toLocaleString();
+  document.getElementById('ak-expenses').textContent='$'+akExp.toFixed(0);
+  var profitEl=document.getElementById('ak-profit');profitEl.textContent='$'+profit.toFixed(0);profitEl.style.color=profit>=0?'#16a34a':'#dc2626';
+  document.getElementById('ak-margin').textContent=mrr>0?margin.toFixed(1)+'%':'—';
+}
+
+function mktAddAkNote(){
+  var note=document.getElementById('ak-note').value.trim();if(!note)return;
+  if(!STATE.admitkit_tracker)STATE.admitkit_tracker={mrr:0,users:0,notes:[]};
+  if(!STATE.admitkit_tracker.notes)STATE.admitkit_tracker.notes=[];
+  STATE.admitkit_tracker.notes.unshift({text:note,ts:new Date().toLocaleString()});
+  saveState(STATE);document.getElementById('ak-note').value='';mktRenderAkNotes();
+}
+
+function mktRenderAkNotes(){
+  var notes=(STATE.admitkit_tracker&&STATE.admitkit_tracker.notes)||[];
+  document.getElementById('ak-notes-list').innerHTML=notes.slice(0,5).map(function(n){
+    return'<div style="font-size:.73rem;padding:.3rem 0;border-bottom:1px solid rgba(226,232,240,.4)"><span style="color:#94a3b8;font-size:.6rem">'+n.ts+'</span> '+n.text+'</div>';
+  }).join('');
+}
+
+// ── Milestones ───────────────────────────────────────────────────────────────
+var MKT_MILESTONES=[
+  {mrr:161,label:'Break-even',reward:"You're profitable. Every dollar above this is yours.",emoji:'✓'},
+  {mrr:350,label:'Launch Monitor Fund',reward:'Buy the launch monitor. You earned it.',emoji:'🎯'},
+  {mrr:500,label:'Driving Iron / Top of Bag',reward:'New club. Fill the gap in your bag.',emoji:'🏌️'},
+  {mrr:1000,label:'New Putter',reward:"Upgrade the flat stick. You're at $1k MRR.",emoji:'⛳'},
+  {mrr:2000,label:'AI PC',reward:'Get the machine. Build faster.',emoji:'💻'},
+  {mrr:5000,label:'Closet Redo',reward:'Full wardrobe upgrade. You made it.',emoji:'🔥'}
+];
+
+function mktRenderMilestones(){
+  var mrr=STATE.admitkit_tracker?STATE.admitkit_tracker.mrr||0:0;
+  var container=document.getElementById('mkt-milestones');
+  var html='<div class="mkt-milestone-track">';
+  MKT_MILESTONES.forEach(function(ms,i){
+    var done=mrr>=ms.mrr;var isNext=!done&&(i===0||mrr>=MKT_MILESTONES[i-1].mrr);
+    var cls=done?'mkt-ms-done':isNext?'mkt-ms-next':'mkt-ms-locked';
+    html+='<div class="mkt-ms-item"><div class="mkt-ms-dot '+cls+'">'+ms.emoji+'</div>';
+    html+='<div style="flex:1"><div style="font-size:.82rem;font-weight:700;color:#1e293b">'+(isNext?'<b>':'')+ms.label+(isNext?'</b>':'')+'</div>';
+    html+='<div style="font-size:.7rem;color:#64748b;margin-top:1px">'+ms.reward+'</div></div>';
+    html+='<div style="font-family:Fraunces,serif;font-size:.78rem;font-weight:700;color:#1e3a5f;white-space:nowrap">$'+ms.mrr+'/mo</div></div>';
+    if(done&&!(STATE.milestone_dismissed&&STATE.milestone_dismissed[ms.mrr])){mktCheckMilestone(ms,mrr);}
+  });
+  var maxMRR=MKT_MILESTONES[MKT_MILESTONES.length-1].mrr;var pct=Math.min(100,mrr/maxMRR*100);
+  html+='</div><div style="margin-top:.5rem;font-size:.72rem;color:#64748b">Current MRR: <span style="font-weight:700;color:#1e3a5f">$'+mrr+'</span></div>';
+  html+='<div style="height:4px;background:#e2e8f0;border-radius:4px;margin-top:.3rem;overflow:hidden"><div style="height:100%;background:#1e3a5f;border-radius:4px;width:'+pct+'%;transition:width .4s"></div></div>';
+  container.innerHTML=html;
+}
+
+async function mktCheckMilestone(ms,mrr){
+  if(STATE.milestone_dismissed&&STATE.milestone_dismissed[ms.mrr])return;
+  var akExp=(STATE.finances||[]).filter(function(f){return f.category==='AdmitKit'&&f.type==='expense';}).reduce(function(s,f){return s+f.amount;},0);
+  var profit=mrr-akExp;var nextMs=MKT_MILESTONES.find(function(m){return m.mrr>ms.mrr;});
+  var nextReward=nextMs?nextMs.reward:'You\'re at the top!';
+  var sys='You are a sharp financial advisor for a 16-year-old entrepreneur. Be direct and motivating. Max 4 sentences.';
+  var user='I just hit $'+mrr+'/month in revenue with $'+akExp+'/month in expenses, netting $'+profit+'/month. My next milestone reward is "'+nextReward+'". Give me: 1 sentence of genuine congratulations, 1 sentence on how to think about spending vs reinvesting at this stage, 1 sentence of specific investment advice (index funds vs back into business at this revenue level), 1 sentence looking ahead to the next milestone.';
+  var res=await callClaude(sys,user);
+  if(res){
+    document.getElementById('mkt-ms-modal-title').textContent=ms.emoji+' '+ms.label+' Reached!';
+    document.getElementById('mkt-ms-modal-body').textContent=res;
+    document.getElementById('mkt-ms-modal').classList.add('open');
+    document.getElementById('mkt-ms-modal').dataset.mrr=ms.mrr;
+  }
+}
+
+function mktDismissMilestone(){
+  var modal=document.getElementById('mkt-ms-modal');var mrr=parseInt(modal.dataset.mrr);
+  modal.classList.remove('open');
+  if(mrr){if(!STATE.milestone_dismissed)STATE.milestone_dismissed={};STATE.milestone_dismissed[mrr]=true;saveState(STATE);}
+}
 
 </script>
 <!-- Summer calendar event modal -->
