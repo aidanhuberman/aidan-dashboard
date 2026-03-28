@@ -4731,11 +4731,32 @@ async function yahooChart(symbol, interval, range){
   return null;
 }
 
+// HiDPI canvas helper — fixes blurry charts on Retina displays
+function hiDpiCanvas(canvas,w,h){
+  var dpr=window.devicePixelRatio||1;
+  canvas.width=w*dpr;canvas.height=h*dpr;
+  canvas.style.width=w+'px';canvas.style.height=h+'px';
+  var ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+  return ctx;
+}
+
+// Draw a sparkline on a small canvas
+function drawSparkline(canvas,closes,w,h){
+  if(!canvas||!closes||closes.length<2)return;
+  var ctx=hiDpiCanvas(canvas,w,h);
+  ctx.clearRect(0,0,w,h);
+  var mn=Math.min.apply(null,closes),mx=Math.max.apply(null,closes),rng=mx-mn||1;
+  var net=closes[closes.length-1]-closes[0];
+  ctx.strokeStyle=net>=0?'#16a34a':'#dc2626';ctx.lineWidth=1.5;ctx.beginPath();
+  closes.forEach(function(v,i){var x=i/(closes.length-1)*w,y=h-(v-mn)/rng*(h-4)+2;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
+}
+
 // Use Claude to get market data (primary method — Yahoo is CORS-blocked from GH Pages)
 async function fetchMarketDataViaClaude(symbols){
   var sys='You are a financial data API. Return ONLY a raw JSON array — no markdown fences, no explanation, no text before or after. Be as accurate as possible with current market data.';
-  var user='Return current market data for: '+symbols.join(', ')+'.\nReturn a JSON array where each element has exactly these fields:\n[{"symbol":"AAPL","name":"Apple","price":123.45,"change":-1.23,"changePct":-0.99,"high52":200,"low52":100}]\nUse the most recent closing prices you know.';
-  var raw=await callClaude(sys,user,2048);
+  var user='Return current market data for: '+symbols.join(', ')+'.\nReturn a JSON array where each element has exactly these fields:\n[{"symbol":"AAPL","name":"Apple","price":123.45,"change":-1.23,"changePct":-0.99,"high52":200,"low52":100,"recent_closes":[120,121,119,122,123]}]\n"recent_closes" should be 20 approximate daily closing prices for the last month (oldest first). Use the most recent closing prices you know.';
+  var raw=await callClaude(sys,user,4096);
   if(!raw)return null;
   try{return parseJSON(raw);}catch(e){console.warn('Market data parse failed:',e,raw);return null;}
 }
@@ -4758,7 +4779,8 @@ var mktIndexResults = {};
 async function fetchMarketOverview(forceAI){
   var strip = document.getElementById('mkt-overview-strip');
   strip.innerHTML = MKT_INDEXES.map(function(idx){
-    return '<div class="mkt-idx-card mkt-loading" id="idx-'+idx.sym.replace(/[^a-zA-Z0-9]/g,'')+'"><div class="idx-name">'+idx.name+'</div><div style="font-size:.58rem;color:#94a3b8;margin-top:1px">'+idx.desc+'</div><div class="idx-price">&mdash;</div><div class="idx-chg"></div></div>';
+    var id=idx.sym.replace(/[^a-zA-Z0-9]/g,'');
+    return '<div class="mkt-idx-card mkt-loading" id="idx-'+id+'"><div class="idx-name">'+idx.name+'</div><div style="font-size:.58rem;color:#94a3b8;margin-top:1px">'+idx.desc+'</div><div class="idx-price">&mdash;</div><div class="idx-chg"></div><canvas id="idx-spark-'+id+'" style="width:100%;height:28px;margin-top:4px"></canvas></div>';
   }).join('');
 
   mktIndexResults = {};
@@ -4785,6 +4807,12 @@ async function fetchMarketOverview(forceAI){
       chgEl.textContent = (chg>=0?'+':'')+chg.toFixed(2)+' ('+(chg>=0?'+':'')+pct.toFixed(2)+'%)'+(chg>=0?' ▲':' ▼');
       chgEl.className = 'idx-chg '+(chg>=0?'mkt-green':'mkt-red');
       mktIndexResults[match.name] = {price:price,change:chg.toFixed(2),pct:pct.toFixed(2)};
+      // Draw sparkline
+      var sparkId='idx-spark-'+match.sym.replace(/[^a-zA-Z0-9]/g,'');
+      var sparkCanvas=document.getElementById(sparkId);
+      if(sparkCanvas && item.recent_closes && item.recent_closes.length>1){
+        drawSparkline(sparkCanvas,item.recent_closes,sparkCanvas.parentElement.clientWidth-16,28);
+      }
     });
   }
 
@@ -4885,6 +4913,11 @@ async function mktFetchAllWatchlistData(){
       if(priceEl) priceEl.innerHTML='$'+(cd.price||0).toFixed(2)+' <span class="'+((cd.change||0)>=0?'mkt-green':'mkt-red')+'" style="font-size:.72rem">'+((cd.change||0)>=0?'+':'')+(cd.changePct||0).toFixed(2)+'%</span>';
       var metaEl=document.getElementById('wl-meta-'+tk);
       if(metaEl) metaEl.textContent='52w: '+(cd.low52?cd.low52.toFixed(0):'?')+' – '+(cd.high52?cd.high52.toFixed(0):'?');
+      // Draw sparkline
+      var sparkCanvas=document.getElementById('wl-spark-'+tk);
+      if(sparkCanvas && cd.recent_closes && cd.recent_closes.length>1){
+        drawSparkline(sparkCanvas,cd.recent_closes,80,30);
+      }
     });
   }
 }
@@ -4983,9 +5016,8 @@ async function mktDrawChartsViaClaude(tk){
 
 function drawPriceChart(closes,label){
   var canvas=document.getElementById('mkt-chart-price');
-  var ctx=canvas.getContext('2d');
   var W=canvas.parentElement.clientWidth-24;
-  canvas.width=W;canvas.height=180;ctx.clearRect(0,0,W,180);
+  var ctx=hiDpiCanvas(canvas,W,180);ctx.clearRect(0,0,W,180);
   var valid=closes.map(function(v,i){return{v:v,i:i};}).filter(function(o){return o.v!=null;});
   if(valid.length<2)return;
   var vals=valid.map(function(o){return o.v;});
@@ -5003,8 +5035,9 @@ function drawPriceChart(closes,label){
 }
 
 function drawVolChart(closes){
-  var canvas=document.getElementById('mkt-chart-vol');var ctx=canvas.getContext('2d');
-  var W=canvas.parentElement.clientWidth-24;canvas.width=W;canvas.height=180;ctx.clearRect(0,0,W,180);
+  var canvas=document.getElementById('mkt-chart-vol');
+  var W=canvas.parentElement.clientWidth-24;
+  var ctx=hiDpiCanvas(canvas,W,180);ctx.clearRect(0,0,W,180);
   var returns=[];for(var i=1;i<closes.length;i++){if(closes[i]!=null&&closes[i-1]!=null&&closes[i-1]!==0)returns.push((closes[i]-closes[i-1])/closes[i-1]*100);else returns.push(0);}
   var vols=[];for(var i=29;i<returns.length;i++){var slice=returns.slice(i-29,i+1);var mean=slice.reduce(function(a,b){return a+b;},0)/slice.length;var variance=slice.reduce(function(a,b){return a+(b-mean)*(b-mean);},0)/slice.length;vols.push(Math.sqrt(variance));}
   if(vols.length<2)return;
@@ -5017,8 +5050,9 @@ function drawVolChart(closes){
 }
 
 function drawRSChart(tkCloses,spyCloses,label){
-  var canvas=document.getElementById('mkt-chart-rs');var ctx=canvas.getContext('2d');
-  var W=canvas.parentElement.clientWidth-24;canvas.width=W;canvas.height=180;ctx.clearRect(0,0,W,180);
+  var canvas=document.getElementById('mkt-chart-rs');
+  var W=canvas.parentElement.clientWidth-24;
+  var ctx=hiDpiCanvas(canvas,W,180);ctx.clearRect(0,0,W,180);
   var len=Math.min(tkCloses.length,spyCloses.length);var tkNorm=[],spyNorm=[];var tkBase=null,spyBase=null;
   for(var i=0;i<len;i++){if(tkCloses[i]!=null&&spyCloses[i]!=null){if(tkBase===null){tkBase=tkCloses[i];spyBase=spyCloses[i];}tkNorm.push((tkCloses[i]/tkBase-1)*100);spyNorm.push((spyCloses[i]/spyBase-1)*100);}}
   if(tkNorm.length<2)return;
