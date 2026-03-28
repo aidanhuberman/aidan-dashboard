@@ -4742,17 +4742,23 @@ async function fetchMarketDataViaClaude(symbols){
 
 // ── Market Overview ──────────────────────────────────────────────────────────
 var MKT_INDEXES = [
-  {sym:'^GSPC',name:'S&P 500'},{sym:'^IXIC',name:'NASDAQ'},{sym:'^DJI',name:'DOW'},{sym:'^VIX',name:'VIX'},
-  {sym:'^STOXX50E',name:'Euro Stoxx 50'},{sym:'^GDAXI',name:'DAX'},{sym:'^FTSE',name:'FTSE 100'},
-  {sym:'^TA125.TA',name:'TA-125'},
-  {sym:'BZ=F',name:'Brent Oil'},{sym:'CL=F',name:'WTI Oil'}
+  {sym:'^GSPC',name:'S&P 500',desc:'Top 500 US companies'},
+  {sym:'^IXIC',name:'NASDAQ',desc:'US tech-heavy index'},
+  {sym:'^DJI',name:'DOW',desc:'30 largest US blue chips'},
+  {sym:'^VIX',name:'VIX',desc:'Market fear gauge'},
+  {sym:'^STOXX50E',name:'Euro Stoxx 50',desc:'Top 50 eurozone companies'},
+  {sym:'^GDAXI',name:'DAX',desc:'Germany\'s top 40'},
+  {sym:'^FTSE',name:'FTSE 100',desc:'UK\'s top 100 companies'},
+  {sym:'^TA125.TA',name:'TA-125',desc:'Israel\'s top 125'},
+  {sym:'BZ=F',name:'Brent Oil',desc:'Global oil benchmark'},
+  {sym:'CL=F',name:'WTI Oil',desc:'US oil benchmark'}
 ];
 var mktIndexResults = {};
 
 async function fetchMarketOverview(forceAI){
   var strip = document.getElementById('mkt-overview-strip');
   strip.innerHTML = MKT_INDEXES.map(function(idx){
-    return '<div class="mkt-idx-card mkt-loading" id="idx-'+idx.sym.replace(/[^a-zA-Z0-9]/g,'')+'"><div class="idx-name">'+idx.name+'</div><div class="idx-price">&mdash;</div><div class="idx-chg"></div></div>';
+    return '<div class="mkt-idx-card mkt-loading" id="idx-'+idx.sym.replace(/[^a-zA-Z0-9]/g,'')+'"><div class="idx-name">'+idx.name+'</div><div style="font-size:.58rem;color:#94a3b8;margin-top:1px">'+idx.desc+'</div><div class="idx-price">&mdash;</div><div class="idx-chg"></div></div>';
   }).join('');
 
   // Try Yahoo first
@@ -4828,13 +4834,37 @@ function mktShowMood(text){
 }
 
 // ── Watchlist ────────────────────────────────────────────────────────────────
+var TICKER_DESCS = {
+  'SPY':'S&P 500 ETF — tracks the whole US market',
+  'AAPL':'Apple — iPhones, Macs, services',
+  'NVDA':'NVIDIA — AI chips & GPUs',
+  'TSLA':'Tesla — EVs & energy',
+  'LMT':'Lockheed Martin — defense & aerospace',
+  'AMZN':'Amazon — e-commerce & cloud (AWS)',
+  'MSFT':'Microsoft — Windows, Azure, Office',
+  'GOOGL':'Alphabet — Google, YouTube, cloud',
+  'META':'Meta — Facebook, Instagram, WhatsApp',
+  'AMD':'AMD — CPUs & GPUs, NVIDIA competitor',
+  'QQQ':'NASDAQ 100 ETF — top tech stocks',
+  'DIS':'Disney — media, parks, streaming',
+  'NFLX':'Netflix — streaming',
+  'BA':'Boeing — aircraft manufacturer',
+  'JPM':'JPMorgan — largest US bank',
+  'V':'Visa — payment processing',
+  'PLTR':'Palantir — data analytics & AI',
+  'COIN':'Coinbase — crypto exchange',
+  'SOFI':'SoFi — fintech & banking',
+  'ARKK':'ARK Innovation ETF — disruptive tech'
+};
+
 function mktRenderWatchlist(){
   var list = document.getElementById('mkt-watchlist-list');
   list.innerHTML = '';
   (STATE.watchlist||[]).forEach(function(tk,idx){
+    var desc = TICKER_DESCS[tk]||'';
     var row = document.createElement('div');
     row.className='mkt-watchlist-item';
-    row.innerHTML='<span class="wl-ticker">'+tk+'</span>'+
+    row.innerHTML='<div style="min-width:52px"><span class="wl-ticker">'+tk+'</span>'+(desc?'<div style="font-size:.58rem;color:#94a3b8;line-height:1.3;margin-top:1px">'+desc+'</div>':'')+'</div>'+
       '<div style="flex:1"><div class="wl-price" id="wl-price-'+tk+'">&mdash;</div><div class="wl-meta" id="wl-meta-'+tk+'"></div></div>'+
       '<canvas id="wl-spark-'+tk+'" width="80" height="30" style="flex-shrink:0"></canvas>'+
       '<button class="wl-del" onclick="mktRemoveTicker('+idx+')">&times;</button>';
@@ -4844,24 +4874,38 @@ function mktRenderWatchlist(){
     askDiv.style.cssText='padding:0 .75rem .4rem';
     askDiv.innerHTML='<button class="mkt-wl-ask" onclick="mktAskAbout(\''+tk+'\',this)">&#10022; Ask Claude about '+tk+'</button><div id="wl-ai-'+tk+'"></div>';
     list.appendChild(askDiv);
-    mktFetchWatchlistData(tk);
   });
+  // Fetch all watchlist data - try Yahoo first, batch Claude fallback
+  mktFetchAllWatchlistData();
 }
 
-async function mktFetchWatchlistData(tk){
-  var d = await yahooChart(tk,'1d','1mo');
-  if(!d){
-    // Fallback: ask Claude for this ticker's data
-    var claudeData = await fetchMarketDataViaClaude([tk]);
-    if(claudeData && claudeData[0]){
-      var cd=claudeData[0];
-      var priceEl=document.getElementById('wl-price-'+tk);
-      if(priceEl) priceEl.innerHTML='$'+(cd.price||0).toFixed(2)+' <span class="'+(cd.change>=0?'mkt-green':'mkt-red')+'" style="font-size:.72rem">'+(cd.change>=0?'+':'')+(cd.changePct||0).toFixed(2)+'%</span>';
-      var metaEl=document.getElementById('wl-meta-'+tk);
-      if(metaEl) metaEl.textContent='52w: '+(cd.low52?cd.low52.toFixed(0):'?')+' – '+(cd.high52?cd.high52.toFixed(0):'?');
+async function mktFetchAllWatchlistData(){
+  var wl=STATE.watchlist||[];
+  if(!wl.length)return;
+  // Try Yahoo for all tickers
+  var results=await Promise.all(wl.map(function(tk){return yahooChart(tk,'1d','1mo');}));
+  var failed=[];
+  results.forEach(function(d,i){
+    if(d) mktApplyWatchlistYahoo(wl[i],d);
+    else failed.push(wl[i]);
+  });
+  // Batch Claude fallback for any that failed
+  if(failed.length>0){
+    var claudeData=await fetchMarketDataViaClaude(failed);
+    if(claudeData&&Array.isArray(claudeData)){
+      claudeData.forEach(function(cd){
+        var tk=cd.symbol||'';
+        var priceEl=document.getElementById('wl-price-'+tk);
+        if(priceEl) priceEl.innerHTML='$'+(cd.price||0).toFixed(2)+' <span class="'+((cd.change||0)>=0?'mkt-green':'mkt-red')+'" style="font-size:.72rem">'+((cd.change||0)>=0?'+':'')+(cd.changePct||0).toFixed(2)+'%</span>';
+        var metaEl=document.getElementById('wl-meta-'+tk);
+        if(metaEl) metaEl.textContent='52w: '+(cd.low52?cd.low52.toFixed(0):'?')+' – '+(cd.high52?cd.high52.toFixed(0):'?');
+      });
     }
-    return;
   }
+}
+
+function mktApplyWatchlistYahoo(tk,d){
+  if(!d||!d.meta)return;
   var price = d.meta.regularMarketPrice;
   var prev = d.meta.chartPreviousClose||d.meta.previousClose||price;
   var chg = price-prev, pct = prev?(chg/prev*100):0;
