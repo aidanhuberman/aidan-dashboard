@@ -4694,14 +4694,34 @@ function mktSaveApiKey(){
   else status.textContent = 'Cleared';
 }
 
+// ── JSON parse helper (strips markdown fences) ──────────────────────────────
+function parseJSON(raw){
+  if(!raw) return null;
+  var cleaned = raw.replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();
+  return JSON.parse(cleaned);
+}
+
 // ── Yahoo Finance ────────────────────────────────────────────────────────────
+var YAHOO_PROXIES = [
+  function(sym,iv,rng){return 'https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?interval='+iv+'&range='+rng;},
+  function(sym,iv,rng){return 'https://corsproxy.io/?url='+encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?interval='+iv+'&range='+rng);},
+  function(sym,iv,rng){return 'https://api.allorigins.win/raw?url='+encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?interval='+iv+'&range='+rng);}
+];
+var _yahooProxyIdx = 0;
+
 async function yahooChart(symbol, interval, range){
-  try{
-    var url = 'https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(symbol)+'?interval='+interval+'&range='+range;
-    var r = await fetch(url);
-    var d = await r.json();
-    return d.chart&&d.chart.result?d.chart.result[0]:null;
-  }catch(e){console.warn('Yahoo failed:',symbol,e);return null;}
+  for(var p=0;p<YAHOO_PROXIES.length;p++){
+    var idx=(_yahooProxyIdx+p)%YAHOO_PROXIES.length;
+    try{
+      var url=YAHOO_PROXIES[idx](symbol,interval,range);
+      var r=await fetch(url);
+      if(!r.ok) continue;
+      var d=await r.json();
+      if(d.chart&&d.chart.result){_yahooProxyIdx=idx;return d.chart.result[0];}
+    }catch(e){continue;}
+  }
+  console.warn('Yahoo failed for',symbol,'- all proxies exhausted');
+  return null;
 }
 
 // ── Market Overview ──────────────────────────────────────────────────────────
@@ -4960,7 +4980,7 @@ async function mktFetchLesson(force){
   var user='Teach lesson #'+idx+' from this sequence: ['+MKT_CURRICULUM.join(', ')+']. Today\'s concept: '+concept+'. Return JSON: {"concept":"","explanation":"","example":"","why_it_matters":"","fun_fact":""}. explanation = 2 sentences plain english. example = real company the user knows. why_it_matters = 1 sentence. fun_fact = surprising 1-liner. Max 100 words total.';
   var raw=await callClaude(sys,user);
   if(!raw){body.innerHTML='<p style="color:#dc2626;font-size:.8rem">Claude unavailable — check API key in Settings</p>';return;}
-  try{var data=JSON.parse(raw);if(!STATE.lesson_cache)STATE.lesson_cache={};STATE.lesson_cache[dateKey]=data;saveState(STATE);mktRenderLesson(data);}
+  try{var data=parseJSON(raw);if(!STATE.lesson_cache)STATE.lesson_cache={};STATE.lesson_cache[dateKey]=data;saveState(STATE);mktRenderLesson(data);}
   catch(e){body.innerHTML='<p style="font-size:.8rem;color:#334155">'+raw.replace(/</g,'&lt;')+'</p>';}
 }
 
@@ -4977,14 +4997,14 @@ function mktRenderLesson(d){
 async function mktFetchNews(force){
   var dayNum=Math.floor(Date.now()/86400000);var cacheKey='news_'+(dayNum-dayNum%2);
   var body=document.getElementById('mkt-news-body');
-  if(!force&&STATE.news_cache&&STATE.news_cache[cacheKey]){mktRenderNews(STATE.news_cache[cacheKey]);return;}
+  if(!force&&STATE.news_cache&&STATE.news_cache[cacheKey]&&typeof STATE.news_cache[cacheKey]==='object'){mktRenderNews(STATE.news_cache[cacheKey]);return;}
   body.innerHTML='<p class="mkt-loading" style="color:#64748b">Fetching briefing...</p>';
   var dateStr=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   var sys='You are a market-aware news analyst writing for a smart 16-year-old. Be direct and specific. Return valid JSON only, no markdown.';
   var user='Today is '+dateStr+'. Write a market intelligence briefing. Return JSON: {"headline":"","world_summary":"","market_impact":"","war_update":"","outlook":""}. world_summary = 3 sentences on major global events. market_impact = 2 sentences on how these affect stocks/indexes. war_update = 1-2 sentences on any active conflicts (Ukraine, Middle East) and their market effect specifically — oil prices, defense stocks, safe haven assets. outlook = 1 sentence. Total under 150 words.';
   var raw=await callClaude(sys,user);
   if(!raw){body.innerHTML='<p style="color:#dc2626;font-size:.8rem">Claude unavailable — check API key in Settings</p>';return;}
-  try{var data=JSON.parse(raw);if(!STATE.news_cache)STATE.news_cache={};STATE.news_cache[cacheKey]=data;saveState(STATE);mktRenderNews(data);}
+  try{var data=parseJSON(raw);if(!STATE.news_cache)STATE.news_cache={};STATE.news_cache[cacheKey]=data;saveState(STATE);mktRenderNews(data);}
   catch(e){body.innerHTML='<p style="font-size:.8rem;color:#334155">'+raw.replace(/</g,'&lt;')+'</p>';}
 }
 
@@ -5008,7 +5028,7 @@ async function mktFetchBullets(){
   var user='Today is '+dateStr+'. Give me: {"bullets":["...","...","...","...","..."],"theme":"","watch":""}. bullets = 5 items, each max 15 words, covering: S&P move, notable stock movers, macro theme, sector moving, wildcard. theme = "trade theme of the day" 1 sentence. watch = one ticker to watch tomorrow and why in 10 words.';
   var raw=await callClaude(sys,user);
   if(!raw){body.innerHTML='<p style="color:#dc2626;font-size:.8rem">Claude unavailable — check API key in Settings</p>';return;}
-  try{var data=JSON.parse(raw);if(!STATE.market_cache)STATE.market_cache={};STATE.market_cache['bullets_'+dateKey]=data;saveState(STATE);mktRenderBullets(data);}
+  try{var data=parseJSON(raw);if(!STATE.market_cache)STATE.market_cache={};STATE.market_cache['bullets_'+dateKey]=data;saveState(STATE);mktRenderBullets(data);}
   catch(e){body.innerHTML='<p style="font-size:.8rem;color:#334155">'+raw.replace(/</g,'&lt;')+'</p>';}
 }
 
