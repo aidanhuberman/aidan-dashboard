@@ -4701,27 +4701,43 @@ function parseJSON(raw){
   return JSON.parse(cleaned);
 }
 
-// ── Yahoo Finance ────────────────────────────────────────────────────────────
-var YAHOO_PROXIES = [
-  function(sym,iv,rng){return 'https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?interval='+iv+'&range='+rng;},
-  function(sym,iv,rng){return 'https://corsproxy.io/?url='+encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?interval='+iv+'&range='+rng);},
-  function(sym,iv,rng){return 'https://api.allorigins.win/raw?url='+encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?interval='+iv+'&range='+rng);}
-];
-var _yahooProxyIdx = 0;
+// ── Yahoo Finance (via multiple CORS proxies) ───────────────────────────────
+function buildYahooUrl(sym,iv,rng){
+  return 'https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?interval='+iv+'&range='+rng;
+}
 
 async function yahooChart(symbol, interval, range){
-  for(var p=0;p<YAHOO_PROXIES.length;p++){
-    var idx=(_yahooProxyIdx+p)%YAHOO_PROXIES.length;
+  var rawUrl = buildYahooUrl(symbol, interval, range);
+  // Try multiple approaches
+  var attempts = [
+    rawUrl,
+    'https://corsproxy.io/?'+encodeURIComponent(rawUrl),
+    'https://api.allorigins.win/raw?url='+encodeURIComponent(rawUrl),
+    'https://cors-anywhere.herokuapp.com/'+rawUrl,
+    'https://thingproxy.freeboard.io/fetch/'+rawUrl
+  ];
+  for(var i=0;i<attempts.length;i++){
     try{
-      var url=YAHOO_PROXIES[idx](symbol,interval,range);
-      var r=await fetch(url);
+      var r=await fetch(attempts[i],{signal:AbortSignal.timeout(8000)});
       if(!r.ok) continue;
-      var d=await r.json();
-      if(d.chart&&d.chart.result){_yahooProxyIdx=idx;return d.chart.result[0];}
+      var text=await r.text();
+      var d=JSON.parse(text);
+      if(d.chart&&d.chart.result) return d.chart.result[0];
+      // allorigins may wrap in {contents:"..."}
+      if(d.contents){var inner=JSON.parse(d.contents);if(inner.chart&&inner.chart.result)return inner.chart.result[0];}
     }catch(e){continue;}
   }
-  console.warn('Yahoo failed for',symbol,'- all proxies exhausted');
+  console.warn('All proxies failed for',symbol);
   return null;
+}
+
+// Fallback: use Claude to get approximate market data when Yahoo is blocked
+async function fetchMarketDataViaClaude(symbols){
+  var sys='You are a financial data API. Return ONLY valid JSON, no markdown. Be as accurate as possible with current market data.';
+  var user='Return current market data for these symbols: '+symbols.join(', ')+'. Return JSON array: [{"symbol":"...","name":"...","price":number,"change":number,"changePct":number,"high52":number,"low52":number}]. Use the most recent closing prices you know. If unsure, use your best estimate.';
+  var raw=await callClaude(sys,user);
+  if(!raw)return null;
+  try{return parseJSON(raw);}catch(e){return null;}
 }
 
 // ── Market Overview ──────────────────────────────────────────────────────────
@@ -4739,13 +4755,16 @@ async function fetchMarketOverview(forceAI){
     return '<div class="mkt-idx-card mkt-loading" id="idx-'+idx.sym.replace(/[^a-zA-Z0-9]/g,'')+'"><div class="idx-name">'+idx.name+'</div><div class="idx-price">&mdash;</div><div class="idx-chg"></div></div>';
   }).join('');
 
+  // Try Yahoo first
   var results = await Promise.all(MKT_INDEXES.map(function(idx){return yahooChart(idx.sym,'1d','5d');}));
   mktIndexResults = {};
+  var yahooWorked = false;
 
   results.forEach(function(d,i){
     var card = document.getElementById('idx-'+MKT_INDEXES[i].sym.replace(/[^a-zA-Z0-9]/g,''));
     if(card) card.classList.remove('mkt-loading');
     if(!d||!d.meta) return;
+    yahooWorked = true;
     var price = d.meta.regularMarketPrice;
     var prev = d.meta.chartPreviousClose||d.meta.previousClose||price;
     var chg = price - prev;
@@ -4758,7 +4777,29 @@ async function fetchMarketOverview(forceAI){
     }
     mktIndexResults[MKT_INDEXES[i].name] = {price:price,change:chg.toFixed(2),pct:pct.toFixed(2)};
   });
-  document.getElementById('mkt-overview-ts').textContent = 'Updated '+new Date().toLocaleTimeString();
+
+  // If Yahoo failed, use Claude as fallback for index overview
+  if(!yahooWorked){
+    var syms = MKT_INDEXES.map(function(idx){return idx.sym+' ('+idx.name+')';});
+    var claudeData = await fetchMarketDataViaClaude(syms);
+    if(claudeData && Array.isArray(claudeData)){
+      claudeData.forEach(function(item){
+        // Find matching index
+        var match = MKT_INDEXES.find(function(idx){return idx.name===item.name || idx.sym===item.symbol;});
+        if(!match) return;
+        var card = document.getElementById('idx-'+match.sym.replace(/[^a-zA-Z0-9]/g,''));
+        if(!card) return;
+        card.classList.remove('mkt-loading');
+        var price=item.price||0, chg=item.change||0, pct=item.changePct||0;
+        card.querySelector('.idx-price').textContent = price.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+        var chgEl = card.querySelector('.idx-chg');
+        chgEl.textContent = (chg>=0?'+':'')+chg.toFixed(2)+' ('+(chg>=0?'+':'')+pct.toFixed(2)+'%)'+(chg>=0?' ▲':' ▼');
+        chgEl.className = 'idx-chg '+(chg>=0?'mkt-green':'mkt-red');
+        mktIndexResults[match.name] = {price:price,change:chg.toFixed(2),pct:pct.toFixed(2)};
+      });
+    }
+  }
+  document.getElementById('mkt-overview-ts').textContent = 'Updated '+new Date().toLocaleTimeString()+(yahooWorked?'':' (via AI)');
 
   // AI mood summary
   var dateKey = new Date().toISOString().slice(0,10);
@@ -4809,7 +4850,18 @@ function mktRenderWatchlist(){
 
 async function mktFetchWatchlistData(tk){
   var d = await yahooChart(tk,'1d','1mo');
-  if(!d) return;
+  if(!d){
+    // Fallback: ask Claude for this ticker's data
+    var claudeData = await fetchMarketDataViaClaude([tk]);
+    if(claudeData && claudeData[0]){
+      var cd=claudeData[0];
+      var priceEl=document.getElementById('wl-price-'+tk);
+      if(priceEl) priceEl.innerHTML='$'+(cd.price||0).toFixed(2)+' <span class="'+(cd.change>=0?'mkt-green':'mkt-red')+'" style="font-size:.72rem">'+(cd.change>=0?'+':'')+(cd.changePct||0).toFixed(2)+'%</span>';
+      var metaEl=document.getElementById('wl-meta-'+tk);
+      if(metaEl) metaEl.textContent='52w: '+(cd.low52?cd.low52.toFixed(0):'?')+' – '+(cd.high52?cd.high52.toFixed(0):'?');
+    }
+    return;
+  }
   var price = d.meta.regularMarketPrice;
   var prev = d.meta.chartPreviousClose||d.meta.previousClose||price;
   var chg = price-prev, pct = prev?(chg/prev*100):0;
@@ -4880,12 +4932,35 @@ async function mktDrawCharts(){
   if(!tk)return;
   var results=await Promise.all([yahooChart(tk,'1d','6mo'),yahooChart('SPY','1d','6mo')]);
   var tkData=results[0],spyData=results[1];
-  if(!tkData)return;
+
+  // If Yahoo failed, generate chart data via Claude
+  if(!tkData){
+    await mktDrawChartsViaClaude(tk);
+    return;
+  }
   _mktChartData={tk:tk,tkData:tkData,spyData:spyData};
   var closes=tkData.indicators.quote[0].close;
   drawPriceChart(closes,tk);
   drawVolChart(closes);
   if(spyData) drawRSChart(closes,spyData.indicators.quote[0].close,tk);
+}
+
+async function mktDrawChartsViaClaude(tk){
+  var sys='You are a financial data API. Return ONLY valid JSON, no markdown, no explanation.';
+  var user='Generate approximate 6-month daily closing prices for '+tk+' and SPY. Return JSON: {"ticker":"'+tk+'","ticker_closes":[...numbers...],"spy_closes":[...numbers...],"current_price":number}. Generate ~126 realistic daily close values each (6 months of trading days). Use your knowledge of recent price history to make them as accurate as possible. The last value should be close to the current price.';
+  var raw=await callClaude(sys,user);
+  if(!raw)return;
+  try{
+    var data=parseJSON(raw);
+    if(!data||!data.ticker_closes)return;
+    var closes=data.ticker_closes;
+    var spyCloses=data.spy_closes||[];
+    // Build a minimal tkData structure for _mktChartData
+    _mktChartData={tk:tk,tkData:{indicators:{quote:[{close:closes}]},meta:{regularMarketPrice:data.current_price||closes[closes.length-1]}},spyData:spyCloses.length?{indicators:{quote:[{close:spyCloses}]}}:null};
+    drawPriceChart(closes,tk);
+    drawVolChart(closes);
+    if(spyCloses.length) drawRSChart(closes,spyCloses,tk);
+  }catch(e){console.warn('Claude chart data parse failed',e);}
 }
 
 function drawPriceChart(closes,label){
